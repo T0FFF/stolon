@@ -11,7 +11,14 @@ RUN mkdir -p ${STKEEPER_DATA_DIR} && \
 VOLUME ["${STKEEPER_DATA_DIR}"]
 
 COPY etc/keeper-entrypoint.sh /usr/local/bin/
-COPY bin/stolon-keeper bin/stolonctl /usr/local/bin/
+#COPY bin/stolon-keeper bin/stolonctl /usr/local/bin/
+RUN apt-get update && apt-get install -y wget vim && \
+    mkdir -p /tmp/stolon-binary && \
+    wget -qO- https://github.com/T0FFF/stolon/releases/download/v0.10.1/stolon-v0.10.1.tar.gz | tar -xz -C /tmp/stolon-binary && \ 
+    mv /tmp/stolon-binary/* /usr/local/bin/ && \
+    sed -i "s/^\(\listen_addresses = \).*/\1'*';/" /data/db/postgres/stolon-temp-postgresql.conf; && \
+    apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log} && \
+    find /tmp /var/tmp /run /var/log -mindepth 1 -delete -print
 
 USER postgres
 ENTRYPOINT ["keeper-entrypoint.sh"]
