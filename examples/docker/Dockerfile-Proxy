@@ -10,7 +10,7 @@ ENV STPROXY_CLUSTER_NAME=stolon-cluster \
 
 RUN apt-get update && apt-get install -y wget && \
     mkdir -p /tmp/stolon-binary && \
-    wget -qO- https://github.com/T0FFF/stolon/releases/download/v0.10.1/stolon-v0.10.1.tar.gz | tar -xz -C /tmp/stolon-binary && \ 
+    wget -qO- https://github.com/orange-cloudfoundry/stolon/releases/download/v0.10.1/stolon-v0.10.1.tar.gz | tar -xz -C /tmp/stolon-binary && \ 
     mv /tmp/stolon-binary/* /usr/local/bin/ && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log} && \
     find /tmp /var/tmp /run /var/log -mindepth 1 -delete -print
